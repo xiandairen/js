@@ -5,6 +5,57 @@
     <title>Title</title>
 </head>
 <body>
+<script>
 
+    // 数组去重
+    var arr = [1,2,3,1,23,4,5,1,2,1,5,12];
+    function duplicateOne(arr){
+        let OBJ = {},TMP = [];
+        for(let i = 0; i < arr.length; i++){
+            if(!OBJ[arr[i]]){
+                OBJ[arr[i]] = true;
+                TMP.push(arr[i])
+            }
+        };
+        return TMP;
+    };
+    console.log(`第一种数组去重方式${duplicateOne(arr)}`)
+
+    // E6 实现数组去重
+    function duplicateTwo(arr){
+        return [...new Set(arr)]
+    };
+   console.log(`es实现数组去重的方式${duplicateTwo(arr)}`);
+
+    // 对象数组去重
+    var arrObj = [
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan2',id:2},
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan2',id:2},
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan3',id:3},
+        {name:'zhangsan1',id:1},
+        {name:'zhangsan4',id:4},
+        {name:'zhangsan3',id:3}
+    ];
+    function duplicateObj(arr){
+        let [OBJ,TMP] =[{},[]];
+        for(let k of arr){
+          if(!OBJ[k.id]){
+              OBJ[k.id] = true;
+              TMP.push(k);
+          }
+        };
+        return TMP;
+    };
+    console.log(`去掉对象里面的重复项${duplicateObj(arrObj)}`);
+
+
+
+</script>
 </body>
 </html>
