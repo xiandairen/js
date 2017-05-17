@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    // es6 class
+    class a {
+        constructor(x){
+            this.x = x;
+        }
+        to(){
+            return this.x
+        }
+    };
+
+    class b extends a {
+        constructor(x){
+            super(x);
+        }
+        do(str){
+            return `${super.to()}${str}`
+        }
+    };
+
+    var DO = new b('hello').do('wrold');
+    console.log(DO)
+
+
+</script>
+</body>
+</html>
