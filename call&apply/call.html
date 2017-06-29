@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+let log = x => console.log(x);
+
+function base(x = 0 ,y = {}){
+    this.x = x;
+    this.y = y;
+};
+
+base.prototype.sayX = function(){
+    return this.x
+};
+
+base.prototype.sayY = function(){
+    return this.y
+};
+
+function extBase(){
+    let conPro = base.apply(this,[5,{id:1, name:'zhagnsan'}]);
+    console.log(conPro);
+};
+
+
+log(extBase());
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    let log = x => console.info(x);
+    let get = (arg1 = 456, arg2 = {}) => {
+        var arr = [...arguments];
+        return arr.find((item) => item == 456);
+    };
+    new Promise((resolve, reject) => {
+       let x = '';
+       setTimeout(()=>{
+            this.x = '456';
+            resolve(this.x)
+        },5000)
+    }).then(
+        res => {
+            return [res, 456]
+        }
+    ).then(
+        res => {
+            get(res);
+        }
+    )
+
+
+</script>
+
+</body>
+</html>

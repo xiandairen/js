@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    let log = x => console.info(x);
+    let obj = {
+        get(x){
+            return x;
+        },
+        y: 123,
+        z : ()=>obj.y,
+        w(){
+            log(this)
+        },
+        v:()=> log(this)
+    };
+    log(obj.get('hello'));
+    log(obj.y);
+    log(obj.z());
+    console.log('________');
+    log(obj.w());
+    log(obj.v());
+
+
+</script>
+
+</body>
+</html>

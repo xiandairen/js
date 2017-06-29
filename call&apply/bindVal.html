@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" v-model="str" id="box">
+<button id="btn">output</button>
+<div id="wrap"></div>
+<script>
+    let $ = val => document.querySelector(val);
+    let log = val => console.log(val);
+    var data = {
+      str:''
+    };
+
+    let [box, btn, wrap] = [$("#box"), $("#btn"), $("#wrap")];
+
+    log(box.value);
+
+
+    Object.defineProperty(data, 'str', {
+        get:function(){
+            return this.str;
+        },
+        set:function(value){
+            this.str = value;
+        }
+    });
+
+    box.addEventListener('keyup',function(){
+        let nodes = this.attributes;
+        let nodeList = [...nodes];
+        let index = nodeList.findIndex((item) => item === 'v-model');
+        data[nodeList[index]] = this.value;
+    },false);
+
+    btn.addEventListener('click', function(){
+        log(this)
+       // console.log(box.value())
+       // wrap.innerHTML = data.str;
+    },false)
+
+
+</script>
+</body>
+</html>
