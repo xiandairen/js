@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title></title>
 </head>
 <body>
-$END$
+
 </body>
+<script>
+    var myImage = (function () {
+        var imgNode = document.createElement("img");
+        imgNode.style.cssText="width:400px;height:300px;";
+        document.body.appendChild(imgNode);
+        return {
+            setSrc: function (src) {
+                imgNode.src = src;
+            }
+        }
+    })();
+    var proxyImage = (function () {
+        var img = new Image();
+        img.onload=function(){
+            myImage.setSrc(this.src);
+        };
+        return {
+            setSrc:function(src){
+                 myImage.setSrc("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496860378152&di=39ebba7b15e822cc41401852a1a825d9&imgtype=0&src=http%3A%2F%2Fawb.img1.xmtbang.com%2Fcover201602%2F20160219%2Fthumb%2F31b34548699442debf923e6d9c28fbb2.jpg");
+                img.src=src;
+            }
+        }
+    })();
+    proxyImage.setSrc("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496860163900&di=562cf21114326fadb87a0b529c7d221d&imgtype=0&src=http%3A%2F%2Fwww.liuhaihua.cn%2Fwp-content%2Fuploads%2F2016%2F02%2FuuUFNjm.png");
+
+
+    function ClickHandler(){
+        console.log(1);
+        return {};
+    }
+
+    var Singleton=(function(){
+        var login;
+        return function(fn){
+            return login||(login=fn.apply(this,arguments));
+        }
+    })();
+
+
+    function Click(){
+        Singleton(ClickHandler);        //模拟jq:once事件
+        //ClickHandler();
+    }
+
+</script>
+<button onclick="Click()">click</button>
 </html>

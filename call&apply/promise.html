@@ -10,7 +10,7 @@
 
     let log = x => console.info(x);
     let get = (arg1 = 456, arg2 = {}) => {
-        var arr = [...arguments];
+        let arr = [...arguments];
         return arr.find((item) => item == 456);
     };
     new Promise((resolve, reject) => {

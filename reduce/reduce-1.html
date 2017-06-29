@@ -6,7 +6,13 @@
 </head>
 <body>
 <script>
+var arr = [[1,2,3],[4,5,6],[7,8,9]].reduce((pre, next) => {
+    return pre.concat(next)
+});
 
+let log = (val) => console.log(val);
+
+log(arr);
 </script>
 </body>
 </html>
