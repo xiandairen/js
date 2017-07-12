@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>函数式编程----组合</title>
 </head>
 <body>
-$END$
+<script>
+    let compose = (f, g) => x => f(g(x));
+    let toUppercaseFn = x => x.toUpperCase();
+    let addSysbool = x => `${x}!`;
+
+    let composeA = compose(addSysbool, toUppercaseFn);
+    let composeB = compose(addSysbool, toUppercaseFn);
+
+    let log = x => console.info(x);
+
+    log(composeA('hello composeA'));
+    log(composeB('hello composeB'));
+
+
+
+    let com = (f, g) => x => f(g(x));
+
+    let strCase = x => x.toUpperCase();
+    let splitStr = x => str => str.split(x);
+
+    let C = com(splitStr(' '), strCase);
+
+    log(C('hello wrold'));
+    log(C('hey js'));
+
+
+
+</script>
 </body>
 </html>

@@ -2,9 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>容器 Functor</title>
 </head>
 <body>
-$END$
+<script>
+
+
+    let log = x => console.info(x);
+    const Container = function(x){
+        this.__value = x;
+    };
+
+    Container.of = x => new Container(x);
+
+    log(Container.of('hello'));
+
+    Container.prototype.m = function (x) {
+        return new Container(x(this.__value))
+    };
+
+    Container.prototype.f = function(x){
+        var __value = this.__value;
+        return [__value, x]
+    };
+
+    let z = Container.of('hai').m(x => x + '~');
+    let r = Container.of(1).m(x => x + 2.5).m( x => x + '!');
+    log(r); // 3.5！
+    log(z);
+
+    let h = Container.of('hey__!').f('abc');
+    log(h);
+
+
+</script>
 </body>
 </html>

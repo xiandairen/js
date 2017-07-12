@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+<script>
+    let log = x => console.log(x);
+
+    let compose = (f, g) => x => f(g(x));
+
+    let head = function(x) { return x[0]; };
+    let reverse = (arr) => arr.reduce((acc, x) => [])
+    let reverse = reduce(function(acc, x){ return [x].concat(acc); }, []);
+    let last = compose(head, reverse);
+
+    log(last(['jumpkick', 'roundhouse', 'uppercut']));
+
+
+
+</script>
 </body>
 </html>
