@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .cont{
+            position: relative;
+            margin: 20px auto;
+            width:600px;
+            height:300px;
+            border: 3px solid red;
+            overflow: hidden;
+        }
+        .wrap-img{
+            position: absolute;
+            height: 300px;
+        }
+       .wrap-img li{
+           float: left;
+           width: 600px;
+           height: 300px;
+       }
+
+
+        .point{
+            width: 125px;
+            position: absolute;
+            z-index: 2;
+            left: 0;
+            right: 0;
+            bottom: 30px;
+            margin:0 auto;
+        }
+        .point i{
+            float: left;
+            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+            background: blueviolet;
+            border-radius: 50%;
+        }
+        .point i.current{
+            background-color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="cont">
+    <div>
+        <ul class="wrap-img">
+            <li><img src="./images/4.jpg" alt=""></li>
+            <li><img src="./images/1.jpg" alt=""></li>
+            <li><img src="./images/2.jpg" alt=""></li>
+            <li><img src="./images/3.jpg" alt=""></li>
+            <li><img src="./images/4.jpg" alt=""></li>
+            <li><img src="./images/1.jpg" alt=""></li>
+        </ul>
+    </div>
+    <div class="point">
+        <i class="current"></i><i></i><i></i><i></i>
+    </div>
+</div>
+<script>
+    let $ = (targetName) => document.querySelector(targetName); // 获取元素的方法
+    let i = 0; // 图片索引
+    let picNum = 3; // 一共有四张图
+    let timer = null; // 控制运动的定时器变量
+    let initTimer = null; // 控制五张图片自动切换的定时器
+    let moveTimer = null;
+    let moveSpeed = 30; // 运动系数
+    let autoSwitchSpeed = 2000; // 控制每张图片切换速度为3秒
+    let k =0,h=k;
+    let y =0;z=y;
+
+    // 输出相关参数
+    let config = () => {
+        let liList = document.querySelectorAll(".wrap-img li");
+        let wrapImg =  $('.wrap-img');
+        let liLen = liList.length;
+        let liW = liList[0].offsetWidth;
+        let W = liLen * liW;
+        return{
+            "liList" : liList, // 所有的li集合
+            "liLen": liLen, // 一共有多少个li
+            'liW': liW, // li的宽度
+            'W': W, // 所有li的宽度
+            "wrapImg":wrapImg,
+            "wrapImgL":wrapImg.offsetLeft
+        }
+    };
+
+    // 设置运动对象的宽高
+    let setMoveTargetWH = () => {
+        let {liW, W, wrapImg} = config();
+        wrapImg.style.width = W + 'px';
+        wrapImg.style.left = -liW + 'px';
+    };
+
+    // 根据索引设置小圆点的样式
+    let setPointStyle = (k) => {
+        let allI = document.querySelectorAll(".point i");
+        allI.forEach((item, n) => {
+            if(n == k){
+                item.setAttribute("class", 'current');
+            }else{
+                item.setAttribute("class", '');
+            }
+        });
+    };
+
+    // 监听索引值
+    let watchInders = () => {
+        if(i == picNum){
+            i = 0;
+        }else{
+            i++
+        }
+    };
+
+    // 控制运动的主体
+    let move = (moveEndNum) => {
+        z = y;
+        let {wrapImg, liW, W } = config();
+        let range = 20; //运动系数
+        clearInterval(timer);
+        let speed = (moveEndNum - wrapImg.offsetLeft) / range;
+        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+        timer = setInterval(()=>{
+            let {wrapImgL} = config();
+            if(wrapImgL == moveEndNum){
+                y++;
+               clearInterval(timer);
+                if(wrapImgL == -(W -liW)){
+                    setMoveTargetWH();
+                    clearInterval(timer);
+                }
+            }else{
+                wrapImg.style.left = wrapImg.offsetLeft + speed + 'px';
+            }
+        },moveSpeed);
+    };
+
+
+    let initMove = () => {
+        let {liW,wrapImg} = config();
+        initTimer = setInterval(()=> {
+            if(z == 0){
+                watchInders(); // 更改索引值
+                setPointStyle(i);  // 设置小圆点的样式
+                move(wrapImg.offsetLeft - liW);
+            }else if(y - z == 1){
+                watchInders(); // 更改索引值
+                setPointStyle(i);  // 设置小圆点的样式
+                move(wrapImg.offsetLeft - liW);
+            }
+        }, autoSwitchSpeed)
+    };
+
+    let init = () => {
+        setMoveTargetWH();     // 设置运动对象的宽高
+        initMove();
+    };
+
+    // 点击小圆点产生的运动
+    let controlMove = (j) => {
+        h = k;
+        let {liW,wrapImg,wrapImgL} = config();
+        let moveDirection = i - j;
+        let range = 20; //运动系数
+        // 实际wrapImgL值
+        clearInterval(moveTimer);
+        let moveEndNum = wrapImgL + (moveDirection * liW);
+        let speed = (moveEndNum - wrapImg.offsetLeft) / range;
+        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+        moveTimer = setInterval(()=>{
+            let {wrapImg, wrapImgL} = config();
+            if(wrapImgL == moveEndNum){
+                clearInterval(moveTimer);
+                 i = j;
+                 k++;
+                 console.log(`k:${k}`)
+                initMove();
+            }else{
+                wrapImg.style.left = wrapImg.offsetLeft + speed + 'px';
+            }
+        },moveSpeed);
+    };
+
+    // 点击小圆点切换到该图的方法
+    let clickPointMove = () => {
+        let allI = document.querySelectorAll(".point i");
+        for (let j = 0; j < allI.length; j++){
+            allI[j].addEventListener('click', () => {
+                console.log(`k:${k} h:${h}`);
+                if(k == 0){
+                    let {wrapImgL, liW} = config();
+                    console.log(`当前点击的是第几个i标签:${j} \n 当前索引所在的位置:${i}`);
+                    if(j != i && wrapImgL % liW == 0){ // 点击自己不做任何改变,否则改变运动方法
+                        clearInterval(moveTimer);
+                        clearInterval(timer);
+                        clearInterval(initTimer);
+                        setPointStyle(j); // 设置点击的圆点样式
+                        controlMove(j);
+                    };
+                }else if (k - h == 1){
+                    console.log(`k -h:${k -h}`)
+                    let {wrapImgL, liW} = config();
+                    console.log(`当前点击的是第几个i标签:${j} \n 当前索引所在的位置:${i}`);
+                    if(j != i && wrapImgL % liW == 0){ // 点击自己不做任何改变,否则改变运动方法
+                        clearInterval(moveTimer);
+                        clearInterval(timer);
+                        clearInterval(initTimer);
+                        setPointStyle(j); // 设置点击的圆点样式
+                        controlMove(j);
+                    };
+                }
+            }, false)
+        }
+    };
+
+
+    init(); // 初始化运动
+    clickPointMove(); // 点击圆点开始运动
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
